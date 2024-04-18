@@ -24,51 +24,70 @@ Index
 
 <body class="g-sidenav-show   bg-gray-100">
   <?php include "aside.php";
-        include "connection.php"; ?>
+        include "connection.php";
+  ?>
   <main class="main-content mt-1 border-radius-lg">
     <!-- Navbar -->
-  <?php include "navbar.php" ;
-      $sql = "SELECT * FROM category";
-
-      $result = mysqli_query($con,$sql);
-
-  ?>
+  <?php include "navbar.php" ?>
     
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-        <a href="addcategory.php" class="btn btn-success">Add Category</a>
-    <table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Description</th>
-      <th scope="col">Image</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
+    <form method = "POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="categoryName">Product Name</label>
+            <input type="text" name = "product_name" class="form-control" id="categoryName" placeholder="Enter Category Name">
+            </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" name = "description" class="form-control" id="description" placeholder="Description">
+        </div>
+        <div class="form-group">
+            <label for="description">Price</label>
+            <input type="text" name = "price" class="form-control" id="description" placeholder="Description">
+        </div>
+        <div class="form-group">
+            <label for="description">Quantity</label>
+            <input type="text" name = "quantity" class="form-control" id="description" placeholder="Description">
+        </div>
+        <div class="form-group">
+            <label for="description">Category</label>
+            <input type="text" name = "category_id" class="form-control" id="description" placeholder="Description">
+        </div>
+        <div class="form-check">
+           <input type="file" name ="image"class="form-control" name="" id="">
+        </div>
+        <button type="submit" name = "insert" class="btn btn-primary">Add Product</button>
+    </form>
+
     <?php
-    while($data=mysqli_fetch_array($result)){
-      // print_r($data);die;
+    
+    if(isset($_POST['insert'])){
+      $product_name = $_POST['product_name'];
+      $description = $_POST['description'];
+      $price = $_POST['price'];
+      $quantity = $_POST['quantity'];
+      $category_id = $_POST['category_id'];
 
-      ?>
- <tr>
-      <th scope="row"><?php echo $data['id']?></th>
-      <td><?php echo $data['category_name']?></td>
-      <td><?php echo $data['description']?></td>
-      <td><img src="<?php echo $data['image']?>" height="50px" width="50px" alt=""></td>
-      <td><a class="btn btn-danger" href="">delete</a></td>
-      <td><a class="btn btn-primary" href="">edit</a></td>
-    </tr>
+      $fileName= $_FILES['image']['name'];
+      $tmpName = $_FILES['image']['tmp_name'];
+      $location = "../assets/images/product/";
+      $saveImage = $location.time().$fileName;
+      move_uploaded_file($tmpName,$saveImage);
+      $q = "INSERT INTO product(product_name,`description`,price,quantity,category_id,`image`)
+      VALUES ('".$product_name."' , '".$description."', '".$price."' , '".$quantity."' , '".$category_id."'  , '".$saveImage."')";
 
-<?php 
+     $result = mysqli_query($con,$q);
+
+     if($result){
+        // header("Location: category.php");
+     }
+
     }
+    
+    
     ?>
-   
-  </tbody>
-</table>
+
+
   </main>
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">

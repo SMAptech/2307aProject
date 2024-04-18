@@ -23,27 +23,55 @@ Index
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
-  <?php include "aside.php" ?>
+  <?php include "aside.php";
+        include "connection.php";
+  ?>
   <main class="main-content mt-1 border-radius-lg">
     <!-- Navbar -->
   <?php include "navbar.php" ?>
     
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-    <form>
+    <form method = "POST" enctype="multipart/form-data">
         <div class="form-group">
             <label for="categoryName">Category Name</label>
-            <input type="text" class="form-control" id="categoryName" placeholder="Enter Category Name">
-                   </div>
+            <input type="text" name = "category_name" class="form-control" id="categoryName" placeholder="Enter Category Name">
+            </div>
         <div class="form-group">
             <label for="description">Description</label>
-            <input type="text" class="form-control" id="description" placeholder="Description">
+            <input type="text" name = "category_description" class="form-control" id="description" placeholder="Description">
         </div>
         <div class="form-check">
-           <input type="file"class="form-control" name="" id="">
+           <input type="file" name ="image"class="form-control" name="" id="">
         </div>
-        <button type="submit" class="btn btn-primary">Add Category</button>
+        <button type="submit" name = "insert" class="btn btn-primary">Add Category</button>
     </form>
+
+    <?php
+    
+    if(isset($_POST['insert'])){
+      $category_name = $_POST['category_name'];
+      $description = $_POST['category_description'];
+      $fileName= $_FILES['image']['name'];
+      $tmpName = $_FILES['image']['tmp_name'];
+      $location = "../assets/images/category/";
+      $saveImage = $location.time().$fileName;
+      move_uploaded_file($tmpName,$saveImage);
+      $q = "INSERT INTO category(category_name,`description`,`image`)
+      VALUES ('".$category_name."' , '".$description."' , '".$saveImage."')";
+
+     $result = mysqli_query($con,$q);
+
+     if($result){
+        // header("Location: category.php");
+     }
+
+    }
+    
+    
+    ?>
+
+
   </main>
   <div class="fixed-plugin">
     <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">

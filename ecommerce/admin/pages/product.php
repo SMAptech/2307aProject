@@ -28,7 +28,7 @@ Index
   <main class="main-content mt-1 border-radius-lg">
     <!-- Navbar -->
   <?php include "navbar.php" ;
-      $sql = "SELECT * FROM category";
+      $sql = "SELECT * FROM product JOIN category ON product.category_id = category.id";
 
       $result = mysqli_query($con,$sql);
 
@@ -36,13 +36,16 @@ Index
     
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-        <a href="addcategory.php" class="btn btn-success">Add Category</a>
+        <a href="addproduct.php" class="btn btn-success">Add Product</a>
     <table class="table">
   <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Name</th>
       <th scope="col">Description</th>
+      <th scope="col">price</th>
+      <th scope="col">quantity</th>
+      <th scope="col">category</th>
       <th scope="col">Image</th>
       <th></th>
       <th></th>
@@ -56,8 +59,12 @@ Index
       ?>
  <tr>
       <th scope="row"><?php echo $data['id']?></th>
-      <td><?php echo $data['category_name']?></td>
+      <td><?php echo $data['product_name']?></td>
       <td><?php echo $data['description']?></td>
+      <td><?php echo $data['price']?></td>
+      <td><?php echo $data['quantity']?></td>
+      <td><?php echo $data['category_name']?></td>
+
       <td><img src="<?php echo $data['image']?>" height="50px" width="50px" alt=""></td>
       <td><a class="btn btn-danger" href="">delete</a></td>
       <td><a class="btn btn-primary" href="">edit</a></td>
