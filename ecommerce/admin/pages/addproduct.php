@@ -50,8 +50,21 @@ Index
             <input type="text" name = "quantity" class="form-control" id="description" placeholder="Description">
         </div>
         <div class="form-group">
-            <label for="description">Category</label>
-            <input type="text" name = "category_id" class="form-control" id="description" placeholder="Description">
+          <select class="form-control" name="category_id" id="">
+            <option value="">Select Category</option>
+            <?php 
+            $sql = "SELECT * FROM category";
+            $result = mysqli_query($con,$sql);
+             while($data = mysqli_fetch_array($result)){
+              ?>
+              <option value="<?php echo $data['id']?>"><?php echo $data['category_name']?></option>
+              <?php
+             }
+            ?>
+
+          </select>
+            <!-- <label for="description">Category</label>
+            <input type="text" name = "category_id" class="form-control" id="description" placeholder="Description"> -->
         </div>
         <div class="form-check">
            <input type="file" name ="image"class="form-control" name="" id="">
@@ -67,7 +80,6 @@ Index
       $price = $_POST['price'];
       $quantity = $_POST['quantity'];
       $category_id = $_POST['category_id'];
-
       $fileName= $_FILES['image']['name'];
       $tmpName = $_FILES['image']['tmp_name'];
       $location = "../assets/images/product/";
