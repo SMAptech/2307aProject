@@ -50,7 +50,7 @@ Index
             <input type="text" name = "quantity" class="form-control" id="description" placeholder="Description">
         </div>
         <div class="form-group">
-          <select class="form-control" name="category_id" id="">
+          <select class="form-control" name="category_id" id="category" onchange = "getSubcategory(this.value)">
             <option value="">Select Category</option>
             <?php 
             $sql = "SELECT * FROM category";
@@ -66,6 +66,12 @@ Index
             <!-- <label for="description">Category</label>
             <input type="text" name = "category_id" class="form-control" id="description" placeholder="Description"> -->
         </div>
+        <div class="form-group">
+          <select name="subcategory" id="subcategory" class="form-control" id="">
+             <option value="">Select subCategory</option>
+
+          </select>
+        </div>
         <div class="form-check">
            <input type="file" name ="image"class="form-control" name="" id="">
         </div>
@@ -80,13 +86,14 @@ Index
       $price = $_POST['price'];
       $quantity = $_POST['quantity'];
       $category_id = $_POST['category_id'];
+      $subcategory_id = $_POST['subcategory'];
       $fileName= $_FILES['image']['name'];
       $tmpName = $_FILES['image']['tmp_name'];
       $location = "../assets/images/product/";
       $saveImage = $location.time().$fileName;
       move_uploaded_file($tmpName,$saveImage);
-      $q = "INSERT INTO product(product_name,`description`,price,quantity,category_id,`image`)
-      VALUES ('".$product_name."' , '".$description."', '".$price."' , '".$quantity."' , '".$category_id."'  , '".$saveImage."')";
+      $q = "INSERT INTO product(product_name,`description`,price,quantity,category_id,`image`,`subcategory_id`)
+      VALUES ('".$product_name."' , '".$description."', '".$price."' , '".$quantity."' , '".$category_id."'  , '".$saveImage."','".$subcategory_id."')";
 
      $result = mysqli_query($con,$q);
 
@@ -164,6 +171,8 @@ Index
   <script src="../assets/js/plugins/chartjs.min.js"></script>
   <script src="../assets/js/plugins/Chart.extension.js"></script>
   <script>
+
+
     var ctx = document.getElementById("chart-bars").getContext("2d");
 
     new Chart(ctx, {
@@ -326,11 +335,15 @@ Index
       }
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
+    
+
   </script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/soft-ui-dashboard.min.js?v=1.0.2"></script>
+  <script src="../assets/js/custom.js"></script>
 </body>
 
 </html>
